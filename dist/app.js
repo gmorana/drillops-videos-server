@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors")); // Import CORS middleware
 const dotenv_1 = __importDefault(require("dotenv"));
+const routesAPI_1 = __importDefault(require("./routes/routesAPI")); // Import your API routes
 dotenv_1.default.config(); // Load environment variables from .env file
 const app = (0, express_1.default)();
 const port = process.env.PORT || 3000;
@@ -28,14 +29,7 @@ app.use(express_1.default.static('public')); // Serve static files from the 'pub
 app.use((0, cors_1.default)());
 app.use(express_1.default.json()); // For parsing application/json
 app.use(express_1.default.urlencoded({ extended: true })); // For parsing application/x-www-form-urlencoded
-app.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.send('Hello, Express 5 with TypeScript!');
-}));
-app.get('/async', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    // Simulate an asynchronous operation
-    yield new Promise((resolve) => setTimeout(resolve, 1000));
-    res.json({ message: 'Async response from Express 5' });
-}));
+app.use('/api', routesAPI_1.default); // Use the API routes
 // Error handling middleware
 app.use((err, req, res, next) => {
     console.error(err.stack);
